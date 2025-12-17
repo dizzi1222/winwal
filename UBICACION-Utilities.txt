@@ -1,0 +1,59 @@
+# Origen: git clone https://github.com/scaryrawr/winwal.git  
+[INDICE DE WINWAL+ ¿Donde copiarlos?
+- ¿UBICACION?
+C:\Users\Diego\Documents\winwal
+
+{1 - [WalManager.psm1] } > - .\winwal
+- DESCRIPCION:
+Detecta el tema de windows actual. NEcesita 2 dependencias y Powershell+Wsl
+ y moverlo a Documentos
+
+C:\Users\Diego\Documents\winwal
+
+{2 - [Microsoft.PowerShell_profile.ps1] } > .\WindowsPowerShell
+El Powershell Azul - > Debe de importar el archivo, osea:
+
+Import-Module ~\Documents\winwal\WalManager.psm1
+
+{3 - [Microsoft.PowerShell_profile.ps1] } > .\WindowsPowerShell
+El Powershell Negro - > Debe de importar el archivo, osea:
+
+Import-Module ~\Documents\winwal\WalManager.psm1
+
+░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀
+▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░
+
+█▀▄ █▀▀ █▀█ █▀▀ █▄░█ █▀▄ █▀▀ █▄░█ █▀▀ █ ▄▀█ █▀
+█▄▀ ██▄ █▀▀ ██▄ █░▀█ █▄▀ ██▄ █░▀█ █▄▄ █ █▀█ ▄█
+
+░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀ ░░▄▀
+▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░ ▄▀░░
+
+{4 - [ImageMagic] }
+El Backend para WAL.
+
+- 
+
+{5 - [Pywal16] } > Instalar con pip, Python3
+El Backend para WAL.
+
+- pip install pywal16
+
+{6 - [Neopywal] } > Se configura en Nvim
+
+- winget install imagemagick.imagemagick
+
+▀█▀ █▀▀ █▀▄▀█ ▄▀█ █▀
+░█░ ██▄ █░▀░█ █▀█ ▄█
+
+pip install pywal16 colorthief haishoku
+
+
+
+█▀ █ █▄░█ █▀▀ █▀█ █▀█ █▄░█ █ ▀█ ▄▀█ █▀█   █▀▀ █▀█ █▄░█   █░█░█ █▀ █░░
+▄█ █ █░▀█ █▄▄ █▀▄ █▄█ █░▀█ █ █▄ █▀█ █▀▄   █▄▄ █▄█ █░▀█   ▀▄▀▄▀ ▄█ █▄▄  
+
+
+ln -s /mnt/c/Users/username/.cache/wal ~/.cache/wal
+
+
