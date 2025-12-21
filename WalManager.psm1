@@ -151,7 +151,8 @@ function Update-WalFromCurrentWallpaper {
     if ($y) {
       Write-Host "🤖 Modo automático (sin confirmación)" -ForegroundColor Cyan
       $Confirm = "S"
-    } else {
+    }
+    else {
       # Preguntar confirmación normal
       $Confirm = Read-Host "`n¿Generar colores con este wallpaper? (S/n)"
     }
@@ -269,8 +270,8 @@ function Set-WallpaperFromArts {
 
   # Obtener todas las imágenes
   Write-Host "🖼️  Buscando imágenes en ARTS..." -ForegroundColor Cyan
-  $AllImages = @(Get-ChildItem -LiteralPath $ArtsPath -Include *.jpg, *.png, *.jpeg, *.bmp, *.webp -Recurse | 
-                Where-Object { $_.Name -notmatch 'thumb|icon|small' })
+  $AllImages = @(Get-ChildItem -LiteralPath $ArtsPath -Include *.jpg, *.png, *.jpeg, *.bmp, *.webp -Recurse |
+    Where-Object { $_.Name -notmatch 'thumb|icon|small' })
 
   if ($AllImages.Count -eq 0) {
     Write-Host "⚠️  No se encontraron imágenes en la carpeta." -ForegroundColor Yellow
@@ -308,19 +309,21 @@ function Set-WallpaperFromArts {
   $Selection = Read-Host "Selección"
 
   switch ($Selection) {
-    "n" { 
+    "n" {
       if ($Page -lt $TotalPages) {
         Set-WallpaperFromArts -Page ($Page + 1) -PageSize $PageSize
-      } else {
+      }
+      else {
         Write-Host "📘 Ya estás en la última página" -ForegroundColor Cyan
         Set-WallpaperFromArts -Page $Page -PageSize $PageSize
       }
       return
     }
-    "p" { 
+    "p" {
       if ($Page -gt 1) {
         Set-WallpaperFromArts -Page ($Page - 1) -PageSize $PageSize
-      } else {
+      }
+      else {
         Write-Host "📘 Ya estás en la primera página" -ForegroundColor Cyan
         Set-WallpaperFromArts -Page $Page -PageSize $PageSize
       }
@@ -334,7 +337,8 @@ function Set-WallpaperFromArts {
       if ($Selection -match '^\d+$' -and [int]$Selection -lt $AllImages.Count) {
         $SelectedImage = $AllImages[[int]$Selection].FullName
         Process-SelectedImage -ImagePath $SelectedImage
-      } else {
+      }
+      else {
         Write-Host "❌ Selección inválida. Intenta de nuevo." -ForegroundColor Red
         Set-WallpaperFromArts -Page $Page -PageSize $PageSize
       }
@@ -344,9 +348,9 @@ function Set-WallpaperFromArts {
 
 function Process-SelectedImage {
   param([string]$ImagePath)
-  
+
   Write-Host "`n🎨 Procesando: $(Split-Path $ImagePath -Leaf)" -ForegroundColor Cyan
-  
+
   # 1. Establecer como wallpaper
   Write-Host "🖼️  Estableciendo como wallpaper..." -ForegroundColor Cyan
   try {
@@ -360,19 +364,21 @@ public class Wallpaper {
 "@
     [Wallpaper]::SystemParametersInfo(0x0014, 0, $ImagePath, 0x01 -bor 0x02)
     Write-Host "✅ Wallpaper establecido" -ForegroundColor Green
-  } catch {
+  }
+  catch {
     Write-Host "⚠️  No se pudo establecer wallpaper: $_" -ForegroundColor Yellow
   }
-  
+
   # 2. Generar colores con pywal
   Write-Host "🎨 Generando colores con pywal..." -ForegroundColor Cyan
   $QuotedPath = "`"$ImagePath`""
   $Result = Invoke-Expression "wal -i $QuotedPath --backend colorthief 2>&1"
-  
+
   if ($LASTEXITCODE -eq 0) {
     Write-Host "✅ Wallpaper y colores actualizados!`n" -ForegroundColor Green
     Show-WalColors
-  } else {
+  }
+  else {
     Write-Host "❌ Error al generar colores:" -ForegroundColor Red
     Write-Host $Result -ForegroundColor Red
   }
@@ -383,33 +389,33 @@ function swal-search {
     .SYNOPSIS
     Buscar imágenes por nombre y establecer como wallpaper
     #>
-  
+
   param([string]$SearchTerm)
-  
+
   if (-not $SearchTerm) {
     $SearchTerm = Read-Host "🔍 Buscar imágenes por nombre"
   }
-  
+
   $ArtsPath = "I:\Mi unidad\Mi unidad\`[Imagenes`]\`[ARTS`]"
   $Images = Get-ChildItem -LiteralPath $ArtsPath -Recurse -Include *.jpg, *.png, *.jpeg, *.bmp, *.webp |
-            Where-Object { $_.Name -match [regex]::Escape($SearchTerm) } |
-            Select-Object -First 50
-  
+  Where-Object { $_.Name -match [regex]::Escape($SearchTerm) } |
+  Select-Object -First 50
+
   if ($Images.Count -eq 0) {
     Write-Host "❌ No se encontraron imágenes con: $SearchTerm" -ForegroundColor Red
     return
   }
-  
+
   Write-Host "🔍 Resultados para: $SearchTerm ($($Images.Count) encontradas)" -ForegroundColor Cyan
-  
+
   for ($i = 0; $i -lt $Images.Count; $i++) {
     $img = $Images[$i]
     $sizeMB = [Math]::Round($img.Length / 1MB, 2)
     Write-Host "[$i] $($img.Name) ($sizeMB MB)" -ForegroundColor White
   }
-  
+
   $Selection = Read-Host "`nSelecciona número (o 'q' para cancelar)"
-  
+
   if ($Selection -match '^\d+$' -and [int]$Selection -lt $Images.Count) {
     Process-SelectedImage -ImagePath $Images[[int]$Selection].FullName
   }
@@ -449,9 +455,7 @@ Set-Alias -Name cwal -Value Show-WalColors
 # MENÚ PRINCIPAL
 # ============================================
 
-function Show-WalMenu {
-  Write-Host "🎨 PYWAL WALLPAPER" -ForegroundColor DarkGray
-  Write-Host "-----------------------------------" -ForegroundColor Cyan
+function Show-WalHelp {
   Write-Host "Comandos disponibles:" -ForegroundColor Green
   Write-Host "  gwp   - Get Wallpaper Path (ver ruta actual)" -ForegroundColor White
   Write-Host "  wal   - Comando wal directo (ej: wal -i imagen.png)" -ForegroundColor White
@@ -469,10 +473,17 @@ function Show-WalMenu {
   Write-Host "📌 Nota: Si tienes rutas con corchetes [], ahora debería funcionar." -ForegroundColor Magenta
 }
 
-# Mostrar menú al importar el módulo
+function Show-WalMenu {
+  Write-Host "📌 walManager on (pywal), usa walhelp" -ForegroundColor DarkGray
+}
+
+# Alias para ayuda
+Set-Alias -Name walhelp -Value Show-WalHelp
+
+# Mostrar menú corto al importar el módulo
 Show-WalMenu
 
 # Exportar funciones
-Export-ModuleMember -Function Get-CurrentWallpaper, Update-WalFromCurrentWallpaper,
-Set-WallpaperFromArts, Show-WalColors, Show-WalMenu, Update-WalTheme, swal-search, Process-SelectedImage
-Export-ModuleMember -Alias gwp, uwal, swal, cwal, wal, sws
+Export-ModuleMember -Function Get-CurrentWallpaper, Update-WalFromCurrentWallpaper, Set-WallpaperFromArts, Show-WalColors, Show-WalMenu, Update-WalTheme, swal-search, Process-SelectedImage, Show-WalHelp
+Export-ModuleMember -Alias gwp, uwal, swal, cwal, wal, sws, walhelp
+
